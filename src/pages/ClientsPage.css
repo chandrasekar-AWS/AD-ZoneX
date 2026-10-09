@@ -1,0 +1,22 @@
+.cl-section { padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(4rem, 8vw, 6.5rem); overflow: hidden; }
+.cl-empty { text-align: center; color: var(--text-muted); font-size: 1.05rem; padding: var(--s5) 0; }
+.cl-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(1rem, 2vw, 1.5rem); }
+
+/* One row = six logos across the screen. The set is drawn twice and the track slides by exactly one set,
+   so the loop never jumps. Pauses on hover; still for reduced motion. */
+.cl-row { --cols: 6; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.cl-track { display: flex; width: max-content; animation: cl-slide var(--dur, 36s) linear infinite; animation-delay: var(--shift, 0s); will-change: transform; }
+.cl-row:hover .cl-track { animation-play-state: paused; }
+.cl-set { display: flex; list-style: none; margin: 0; padding: 0; flex: none; }
+.cl-logo { flex: none; width: calc(100vw / var(--cols)); min-width: 150px; max-width: 260px; padding: 0.4rem clamp(0.5rem, 1.6vw, 1.4rem); }
+.cl-logo > img { width: 100%; height: clamp(84px, 9vw, 120px); object-fit: contain; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease); }
+.cl-logo:hover > img { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--lime); }
+@keyframes cl-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+@media (max-width: 900px) { .cl-row { --cols: 4; } }
+@media (max-width: 560px) { .cl-row { --cols: 2.5; } .cl-logo { min-width: 132px; } }
+@media (prefers-reduced-motion: reduce) {
+  .cl-track { animation: none; }
+  .cl-row { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .cl-set[aria-hidden] { display: none; }
+}

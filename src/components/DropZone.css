@@ -1,0 +1,5 @@
+.dz { position: relative; display: flex; cursor: pointer; transition: border-color 0.2s, background-color 0.2s, transform 0.2s; }
+.dz__input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
+.dz.is-disabled { opacity: 0.55; cursor: not-allowed; }
+.dz.is-over { transform: scale(1.01); }
+.dz:focus-within { outline: 3px solid var(--lime, #afcc39); outline-offset: 3px; }

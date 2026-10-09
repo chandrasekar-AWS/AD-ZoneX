@@ -1,0 +1,30 @@
+/* Hero animation card. Selectors start with .hero__media so they beat the older single-picture rules in HomePage.css */
+.hero__media.hs { display: flex; flex-direction: column; }
+.hero__media .hs__stage { position: relative; aspect-ratio: 4 / 3; background: #0f1217; overflow: hidden; }
+.hero__media .hs__img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; opacity: 0; transition: opacity 0.35s var(--ease); user-select: none; }
+.hero__media .hs__img.is-in { opacity: 1; }
+
+.hero__media .hs__bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: 0.75rem; padding: 0 0.6rem 0 0.4rem; background: var(--ink-2); border-top: 1px solid var(--ink-line); }
+.hero__media .hs__tabs { display: flex; flex-wrap: wrap; min-width: 0; }
+.hero__media .hs__tab { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: inline-flex; align-items: center; min-height: 48px; padding: 0 0.85rem; font-family: var(--font-head); font-size: 0.88rem; font-weight: 500; color: var(--on-dark); transition: color 0.2s var(--ease); }
+.hero__media .hs__tab:hover { color: var(--lime); }
+.hero__media .hs__tab.is-on { color: var(--lime); }
+.hero__media .hs__tab:focus-visible { outline: 3px solid var(--lime); outline-offset: -3px; border-radius: 8px; }
+/* thin line under the active service: it fills while that animation plays */
+.hero__media .hs__fill { position: absolute; left: 0.85rem; right: 0.85rem; bottom: 6px; height: 3px; border-radius: 3px; background: rgba(175, 204, 57, 0.28); overflow: hidden; }
+.hero__media .hs__fill::after { content: ''; position: absolute; inset: 0; background: var(--lime); transform: scaleX(0); transform-origin: left; }
+.hero__media .hs__fill.is-run::after { animation: hs-fill var(--ms) linear forwards; }
+@keyframes hs-fill { to { transform: scaleX(1); } }
+
+.hero__media .hs__side { display: flex; align-items: center; gap: 0.25rem; flex: none; }
+.hero__media .hs__more { display: inline-flex; align-items: center; gap: 0.25rem; min-height: 44px; padding: 0 0.4rem; font-family: var(--font-head); font-size: 0.82rem; font-weight: 500; color: var(--on-dark-muted); text-decoration: none; transition: color 0.2s var(--ease); }
+.hero__media .hs__more:hover { color: var(--lime); }
+.hero__media .hs__pause { all: unset; box-sizing: border-box; cursor: pointer; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--on-dark-muted); transition: color 0.2s var(--ease), background-color 0.2s var(--ease); }
+.hero__media .hs__pause:hover { color: var(--lime); background: rgba(255, 255, 255, 0.07); }
+.hero__media .hs__pause:focus-visible, .hero__media .hs__more:focus-visible { outline: 3px solid var(--lime); outline-offset: -3px; border-radius: 8px; }
+
+@media (max-width: 560px) {
+  .hero__media .hs__bar { flex-direction: column; align-items: stretch; padding: 0 0.4rem 0.4rem; gap: 0; }
+  .hero__media .hs__side { justify-content: space-between; }
+}
+@media (prefers-reduced-motion: reduce) { .hero__media .hs__img { transition: none; } .hero__media .hs__fill.is-run::after { animation: none; transform: scaleX(1); } }

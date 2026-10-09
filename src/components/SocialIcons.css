@@ -1,0 +1,35 @@
+/* Social icons: no circle, no box. The icon itself lights up and glows in its own brand colour. */
+.social-btn {
+  --glow: 255, 255, 255;
+  width: 44px; height: 44px; /* keeps a comfortable tap target, but invisible */
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(255, 255, 255, 0.92); text-decoration: none; background: none; border: 0; border-radius: 8px;
+  transition: color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.social-btn svg { display: block; transition: filter 0.3s var(--ease), transform 0.25s var(--ease); }
+
+.social-btn[data-brand='whatsapp'] { --glow: 37, 211, 102; }
+.social-btn[data-brand='facebook'] { --glow: 24, 119, 242; }
+.social-btn[data-brand='youtube']  { --glow: 255, 40, 40; }
+.social-btn[data-brand='linkedin'] { --glow: 40, 140, 230; }
+.social-btn[data-brand='x']        { --glow: 255, 255, 255; }
+.social-btn[data-brand='telegram'] { --glow: 38, 165, 228; }
+.social-btn[data-brand='instagram'] { --glow: 238, 60, 125; }
+
+.social-btn:hover, .social-btn:focus-visible { color: rgb(var(--glow)); text-decoration: none; transform: translateY(-2px); }
+.social-btn:hover svg, .social-btn:focus-visible svg {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 3px rgba(var(--glow), 0.95)) drop-shadow(0 0 9px rgba(var(--glow), 0.75)) drop-shadow(0 0 18px rgba(var(--glow), 0.45));
+}
+.social-btn:focus-visible { outline: 2px solid rgba(var(--glow), 0.9); outline-offset: 2px; }
+
+/* Instagram glows in its warm gradient colours */
+.social-btn[data-brand='instagram']:hover svg, .social-btn[data-brand='instagram']:focus-visible svg {
+  filter: drop-shadow(0 0 3px rgba(238, 60, 125, 0.95)) drop-shadow(-4px 0 8px rgba(250, 140, 40, 0.65)) drop-shadow(4px 0 8px rgba(100, 90, 220, 0.65)) drop-shadow(0 0 16px rgba(238, 60, 125, 0.45));
+}
+
+/* WhatsApp row icon on the contact page glows green on hover */
+.contact-detail-row .wa-glow { color: #25d366; transition: filter 0.25s var(--ease); }
+.contact-detail-row:hover .wa-glow { filter: drop-shadow(0 0 6px rgba(37, 211, 102, 0.95)); }
+
+@media (prefers-reduced-motion: reduce) { .social-btn:hover, .social-btn:focus-visible, .social-btn:hover svg { transform: none; } }
