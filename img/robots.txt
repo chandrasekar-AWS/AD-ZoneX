@@ -1,9 +1,5 @@
 User-agent: *
 Allow: /
-# The public pages load their content and photos from these two addresses, so search engines must be allowed to read them
-# (otherwise Google sees an incomplete page). Everything else in /api/ and the admin area stays closed.
-Allow: /api/content
-Allow: /api/media/
 Disallow: /admin
 Disallow: /api/
 

@@ -19,13 +19,16 @@ const withRequired = (session, saved) => {
   return missing.length ? [...saved, ...missing] : saved;
 };
 
-// A saved service that has no picture, or only the built-in pictures from an older version of the site,
-// gets its own built-in picture (so every service always shows an image that belongs to it).
+// Services saved in Admin long ago may use old names (e.g. "Flyer & brochures Design") and old picture paths.
+// Each saved service is matched to the built-in one by its (fuzzy) name, then it gets the correct name and, if it
+// only has built-in or missing pictures, the correct built-in picture. Pictures uploaded in Admin are kept.
 const BUILT_IN = /^\/(design|print|signage|digital)\//;
 const withDefaultImages = (session, saved) => saved.map((sv) => {
-  const d = session.services.find((x) => slugOf(x.name) === slugOf(sv.name));
+  const d = session.services.find((x) => titleKey(x.name) === titleKey(sv.name));
+  if (!d) return sv; // a service added by the owner in Admin: leave as saved
   const imgs = Array.isArray(sv.images) ? sv.images.filter(Boolean) : [];
-  return d?.images?.length && imgs.every((i) => BUILT_IN.test(i)) ? { ...sv, images: d.images } : sv;
+  const useDefault = d.images?.length && imgs.every((i) => BUILT_IN.test(i));
+  return { ...sv, name: d.name, images: useDefault ? d.images : sv.images };
 });
 
 const defaultGallery = () =>
@@ -58,7 +61,7 @@ const defaultReviews = () => TESTIMONIALS.map((t, i) => ({ id: `default-${i}`, .
  * the admin has saved (/api/content). Pages render instantly with defaults and
  * swap in the saved content as soon as it loads.
  */
-const CACHE_KEY = 'adzone:content:v1';
+const CACHE_KEY = 'adzone:content:v2';
 const EMPTY = { gallery: null, reviews: null, services: null, clients: null, profile: null };
 // The last content this browser received. It is shown at once on the next visit (no flash of old defaults),
 // then replaced by the fresh copy a moment later.
@@ -81,7 +84,7 @@ export function ContentProvider({ children }) {
 
   const value = useMemo(() => {
     const sessions = DEFAULT_SESSIONS.map((s) =>
-      Array.isArray(remote.services?.[s.id]) ? { ...s, services: withDefaultImages(s, withRequired(s, remote.services[s.id])) } : s
+      Array.isArray(remote.services?.[s.id]) ? { ...s, services: withRequired(s, withDefaultImages(s, remote.services[s.id])) } : s
     );
     return {
       sessions,
