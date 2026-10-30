@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /api/content
+Allow: /api/media/
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://www.adzonex.in/sitemap.xml
