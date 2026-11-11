@@ -102,3 +102,6 @@ Each service can have one video, shown above its photos on the service page. Upl
 
 ## Right-click
 Right-click (and long-press on phones) is disabled everywhere except inside text boxes, so people can still paste into the forms. It is a deterrent only: anything shown in a browser can still be screenshotted or found in the browser's developer tools. To allow right-click again, delete the `contextmenu` listener in `src/components/PageEffects.jsx`.
+
+## Detailed text on digital services
+When a visitor presses **Enquire about this** on a Digital service, the Contact page shows that service's pictures/video, then a longer explanation (what we do, why AD ZONEX, how we work, common questions), then the enquiry form. The text for each digital service is in `src/data/serviceDetails.js` (edit the wording there and redeploy). A digital service without an entry there shows only the pictures and the form.

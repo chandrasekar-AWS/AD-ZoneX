@@ -36,6 +36,9 @@ try {
     ...SESSIONS.map((s) => `/service/${s.id}`)];
   
   slugs.forEach((n) => urls.push(`/services/${slugOf(n)}`));
+  const digital = SESSIONS.find((c) => c.id === 'digital').services.map((x) => slugOf(x.name));
+  digital.forEach((sl) => urls.push(`/contact?service=${sl}`));
+  urls.push('/contact?service=logo-design', '/contact?service=digital');
 
   const seenLinks = new Map(); const seenFull = new Map();
   for (const url of urls) {
@@ -43,6 +46,20 @@ try {
       h(ContentProvider, null, h(RR.Routes, null, ...Object.entries(comps).map(([r, C]) => h(RR.Route, { key: r, path: r, element: h(C) }))))));
     const problems = [];
     if (!/<h1[ >]/.test(html) && !url.startsWith('/admin')) problems.push('no <h1>');
+    // "Enquire about this" on a digital service → Contact page with the long details (offers, why, steps, questions) before the form
+    const cm = /^\/contact\?service=(.+)$/.exec(url);
+    if (cm) {
+      const want = digital.includes(cm[1]);
+      const has = /class="sd"/.test(html);
+      if (want && !has) problems.push('digital service shows no detailed content on the Contact page');
+      if (!want && has) problems.push('detailed content should only appear for digital services');
+      if (want) {
+        const n = (re) => (html.match(re) || []).length;
+        if (n(/class="sd-offer reveal"/g) < 4 || n(/<ul class="sd-why">/g) !== 1 || n(/<ul class="sd-steps">/g) !== 1 || n(/<details\b/g) < 4) problems.push('detailed content is incomplete (need 4+ offers, why, steps, 4+ questions)');
+        if (html.indexOf('class="sd"') > html.indexOf('id="contact-form-anchor"')) problems.push('details must come BEFORE the form');
+        if (html.indexOf('class="contact-intro') > html.indexOf('class="sd"')) problems.push('pictures/video intro must come first');
+      }
+    }
     // links
     for (const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)) {
       const attrs = m[1]; const href = /href="([^"]*)"/.exec(attrs)?.[1];

@@ -2,6 +2,8 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Phone, Mail, ArrowLeft, ChevronDown } from 'lucide-react';
 import ServiceSlider from '../components/ServiceSlider';
+import ServiceDetails from '../components/ServiceDetails';
+import { SERVICE_DETAILS } from '../data/serviceDetails';
 import { WhatsAppIcon } from '../components/SocialIcons';
 import { scrollToEl } from '../utils/smoothScroll';
 import { INDIA_LOCATIONS, INDIA_STATES } from '../data/indiaLocations';
@@ -36,6 +38,8 @@ function resolveContext(sessions, param) {
       title: svc.title,
       description: svc.description,
       images: svc.images,
+      video: svc.video,
+      details: svc.category === 'digital' ? SERVICE_DETAILS[svc.slug] : undefined, // long text for digital services
       glowColor: svc.glowColor,
       dropdown: svc.title,
       message: `I'm interested in ${svc.title}.`,
@@ -206,9 +210,9 @@ export default function ContactPage() {
           <div className="container">
             <Link to={ctx.backTo} className="contact-back"><ArrowLeft size={16} aria-hidden="true" /> {ctx.backLabel}</Link>
             <div className="contact-intro-grid">
-              {ctx.images.length > 0 && (
+              {(ctx.images.length > 0 || ctx.video) && (
                 <div className="contact-intro-media">
-                  <ServiceSlider images={ctx.images} alt={ctx.title} />
+                  <ServiceSlider video={ctx.video} images={ctx.images} alt={ctx.title} />
                 </div>
               )}
               <div className="contact-intro-text">
@@ -217,7 +221,7 @@ export default function ContactPage() {
                 {ctx.description && <p className="contact-intro-desc">{ctx.description}</p>}
                 <div className="contact-intro-cta">
                   <Button onClick={scrollToForm} variant="primary">Enquire now</Button>
-                  <span className="contact-scroll-hint"><ChevronDown size={18} aria-hidden="true" /> or fill in the form below</span>
+                  <span className="contact-scroll-hint"><ChevronDown size={18} aria-hidden="true" /> {ctx.details ? 'scroll down for the details and the enquiry form' : 'or fill in the form below'}</span>
                 </div>
               </div>
             </div>
@@ -233,7 +237,16 @@ export default function ContactPage() {
         </section>
       )}
 
-      <div className="container contact-body section" id="contact-form-anchor">
+      {ctx?.details && <ServiceDetails details={ctx.details} id={ctx.key} />}
+
+      {ctx?.details && (
+        <div className="container contact-formhead">
+          <span className="eyebrow">Enquire</span>
+          <h2>Enquire about {ctx.title}</h2>
+        </div>
+      )}
+
+      <div className={`container contact-body section${ctx?.details ? ' contact-body--after-details' : ''}`} id="contact-form-anchor">
         {/* ── Left: form ─────────────────────────────────────── */}
         <div className="contact-form-col">
             <form

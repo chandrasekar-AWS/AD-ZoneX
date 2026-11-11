@@ -511,3 +511,11 @@ test('phone picker flags are allowed by the Content-Security-Policy', () => {
   const csp = vercel.headers.flatMap((h) => h.headers).find((h) => h.key === 'Content-Security-Policy').value;
   assert.match(csp, /img-src[^;]*https:\/\/flagcdn\.com/);
 });
+
+test('digital services: details (with picture and video) are on the Contact page, before the form', () => {
+  const cp = src('src/pages/ContactPage.jsx'); const d = src('src/data/serviceDetails.js');
+  assert.match(cp, /<ServiceSlider video=\{ctx\.video\} images=\{ctx\.images\}/);
+  assert.match(cp, /svc\.category === 'digital' \? SERVICE_DETAILS\[svc\.slug\]/);
+  for (const k of ['digital-marketing', 'web-design-development', 'branding', 'tech-support', 'aws-cloud-services']) assert.ok(d.includes(k.includes('-') ? `'${k}': {` : `${k}: {`), 'details for ' + k);
+  assert.ok(!fs.existsSync(new URL('src/pages/AwsCloudPage.jsx', proj)));
+});

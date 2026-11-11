@@ -1,0 +1,37 @@
+/* Detailed service text on the Contact page (class names start with sd- so they never clash with other pages) */
+
+.sd-offers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
+.sd-offer { display: flex; gap: 1.1rem; align-items: flex-start; padding: var(--s4); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease), opacity 0.5s var(--ease); }
+.sd-offer:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--lime); }
+.sd-offer__icon { flex: none; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: var(--ink); color: var(--lime); }
+.sd-offer h3 { font-size: 1.2rem; font-weight: 600; }
+.sd-offer__tag { display: inline-block; margin: 0.3rem 0 0.6rem; padding: 0.15rem 0.65rem; border-radius: 999px; background: rgba(175, 204, 57, 0.22); color: #4d6210; font-family: var(--font-head); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em; }
+.sd-offer p { color: var(--text-muted); font-size: 0.97rem; }
+
+.sd-why { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); }
+.sd-why li { padding-top: var(--s3); border-top: 2px solid var(--lime); transition: opacity 0.5s var(--ease); }
+.sd-why svg { color: var(--lime); margin-bottom: 0.8rem; }
+.sd-why h3 { font-size: 1.15rem; font-weight: 600; color: #fff; }
+.sd-why p { margin-top: 0.5rem; color: var(--on-dark-muted); font-size: 0.97rem; }
+
+.sd-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s3); }
+.sd-steps li { padding: var(--s3); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--card); }
+.sd-steps__icon { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: var(--s2); border-radius: 50%; background: var(--lime); color: var(--ink); }
+.sd-steps h3 { font-size: 1.1rem; font-weight: 600; }
+.sd-steps p { margin-top: 0.4rem; color: var(--text-muted); font-size: 0.94rem; }
+
+.sd-faq { max-width: 860px; }
+.sd-faq__list { display: grid; gap: 0.75rem; }
+.sd-faq details { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); transition: border-color 0.2s var(--ease), opacity 0.5s var(--ease); }
+.sd-faq details[open] { border-color: var(--lime-deep); }
+.sd-faq summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0.7rem 1.2rem; font-family: var(--font-head); font-weight: 500; font-size: 1.02rem; }
+.sd-faq summary::-webkit-details-marker { display: none; }
+.sd-faq summary::after { content: '+'; flex: none; font-size: 1.5rem; line-height: 1; color: var(--lime-deep); transition: transform 0.25s var(--ease); }
+.sd-faq details[open] summary::after { transform: rotate(45deg); }
+.sd-faq summary:focus-visible { outline: 3px solid var(--lime-deep); outline-offset: 2px; border-radius: var(--radius); }
+.sd-faq details p { padding: 0 1.2rem 1.1rem; color: var(--text-muted); }
+
+
+@media (max-width: 1000px) { .sd-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sd-why { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .sd-offers { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .sd-steps { grid-template-columns: 1fr; } .sd-offer { flex-direction: column; } }
