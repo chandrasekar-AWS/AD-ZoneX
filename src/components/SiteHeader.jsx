@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
-import { NAV_ITEMS, slugOf, servicePath } from '../data/services';
+import { NAV_ITEMS, slugOf, servicePath, categoryPath } from '../data/services';
 import { useContent } from '../context/ContentContext';
 import useScrollLock from '../hooks/useScrollLock';
 import './SiteHeader.css';
@@ -89,7 +89,7 @@ export default function SiteHeader({ activeHref = '/', solid = false }) {
                       <div className="mega__grid">
                         {sessions.map((s) => (
                           <div key={s.id} className="mega__col">
-                            <Link to={`/service#${s.id}`} className="mega__head">{s.label}</Link>
+                            <Link to={categoryPath(s.id)} className="mega__head">{s.label}</Link>
                             <ul>
                               {s.services.map((svc) => (
                                 <li key={svc.name}><Link to={servicePath(slugOf(svc.name))}>{svc.name}</Link></li>
@@ -149,7 +149,7 @@ export default function SiteHeader({ activeHref = '/', solid = false }) {
             </ul>
             <p className="mobile-panel__label">Services</p>
             <ul className="mobile-panel__sub">
-              {sessions.map((s) => (<li key={s.id}><Link to={`/service#${s.id}`}>{s.label}</Link></li>))}
+              {sessions.map((s) => (<li key={s.id}><Link to={categoryPath(s.id)}>{s.label}</Link></li>))}
             </ul>
             <p className="mobile-panel__label">More</p>
             <ul className="mobile-panel__sub">

@@ -59,8 +59,8 @@ function resolveContext(sessions, param) {
       glowColor: cat.glowColor,
       dropdown: first?.title ?? '',
       message: `I'm interested in ${first?.title ?? `${cat.label} services`}.`,
-      backTo: `/service#${cat.id}`,
-      backLabel: 'Back to Services',
+      backTo: `/service/${cat.id}`,
+      backLabel: `Back to ${cat.label}`,
     };
   }
   return null;

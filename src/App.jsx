@@ -20,13 +20,12 @@ const ProfilePage = page(() => import('./pages/ProfilePage'));
 const ServicesHubPage = page(() => import('./pages/ServicesHubPage'));
 const CategoryPage = page(() => import('./pages/CategoryPage'));
 const ServicePage = page(() => import('./pages/ServicePage'));
-const AwsCloudPage = page(() => import('./pages/AwsCloudPage'));
 const GalleryPage = page(() => import('./pages/GalleryPage'));
 const ContactPage = page(() => import('./pages/ContactPage'));
 const NotFoundPage = page(() => import('./pages/NotFoundPage'));
 const AdminLogin = page(() => import('./admin/AdminLogin'));
 const AdminDashboard = page(() => import('./admin/AdminDashboard'));
-const PUBLIC_PAGES = [AboutPage, ServicesHubPage, GalleryPage, ContactPage, CategoryPage, ServicePage, ClientsPage, CareersPage, ProfilePage, AwsCloudPage];
+const PUBLIC_PAGES = [AboutPage, ServicesHubPage, GalleryPage, ContactPage, CategoryPage, ServicePage, ClientsPage, CareersPage, ProfilePage];
 
 function ScrollToTop() {
   const { pathname, search, hash } = useLocation();
@@ -41,7 +40,7 @@ function ScrollToTop() {
 const ROUTE_PRELOAD = [
   [/^\/about\/?$/, AboutPage], [/^\/clients\/?$/, ClientsPage], [/^\/careers\/?$/, CareersPage], [/^\/profile\/?$/, ProfilePage],
   [/^\/service\/?$/, ServicesHubPage], [/^\/service\/[^/]+\/?$/, CategoryPage],
-  [/^\/services\/aws-cloud-services\/?$/, AwsCloudPage], [/^\/services\/[^/]+\/?$/, ServicePage],
+  [/^\/services\/[^/]+\/?$/, ServicePage],
   [/^\/gallery\/?$/, GalleryPage], [/^\/contact\/?$/, ContactPage],
 ];
 const preloadPath = (path) => { const hit = ROUTE_PRELOAD.find(([re]) => re.test(path)); if (hit) hit[1].preload().catch(() => {}); };
@@ -146,12 +145,11 @@ export default function App() {
           <Route path="/service" element={<ServicesHubPage />} />
           <Route path="/service/:category" element={<CategoryPage />} />
           <Route path="/services" element={<Navigate to="/service" replace />} />
-          <Route path="/services/aws-cloud-services" element={<AwsCloudPage />} />
           <Route path="/services/:slug" element={<ServicePage />} />
-          <Route path="/design" element={<Navigate to="/service#design" replace />} />
-          <Route path="/print" element={<Navigate to="/service#print" replace />} />
-          <Route path="/signage" element={<Navigate to="/service#signage" replace />} />
-          <Route path="/digital" element={<Navigate to="/service#digital" replace />} />
+          <Route path="/design" element={<Navigate to="/service/design" replace />} />
+          <Route path="/print" element={<Navigate to="/service/print" replace />} />
+          <Route path="/signage" element={<Navigate to="/service/signage" replace />} />
+          <Route path="/digital" element={<Navigate to="/service/digital" replace />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/projects" element={<Navigate to="/gallery" replace />} />
           <Route path="/contact" element={<ContactPage />} />

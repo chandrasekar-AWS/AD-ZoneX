@@ -8,7 +8,7 @@ import ServiceSlider from '../components/ServiceSlider';
 import { useContent } from '../context/ContentContext';
 import { useScrollToHash } from '../hooks/useScrollToHash';
 import { scrollToEl } from '../utils/smoothScroll';
-import { slugOf, servicePath, categoryPath, worksPath } from '../data/services';
+import { slugOf, servicePath, categoryPath, contactPath, worksPath } from '../data/services';
 import './ServicesHubPage.css';
 
 /** /service — intro, sticky line sidebar and four large category boxes. */
@@ -124,7 +124,8 @@ export default function ServicesHubPage() {
                   ))}
                 </ul>
                 <div className="svc-box__actions">
-                  <Button to={categoryPath(s.id)} variant="primary">Enquire</Button>
+                  <Button to={contactPath(s.id)} variant="primary">Enquire</Button>
+                  <Button to={categoryPath(s.id)} variant="outline">All {s.label.toLowerCase()} services</Button>
                   <Button to={worksPath(s.id)} variant="outline">See our work</Button>
                 </div>
               </div>

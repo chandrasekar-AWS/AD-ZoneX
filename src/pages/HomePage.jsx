@@ -10,7 +10,7 @@ import TechLogos from '../components/TechLogos';
 import { useContent } from '../context/ContentContext';
 import { useScrollToHash } from '../hooks/useScrollToHash';
 import useReveal from '../hooks/useReveal';
-import { PHILOSOPHY, STATS, CONTACT_INFO, slugOf, servicePath } from '../data/services';
+import { PHILOSOPHY, STATS, CONTACT_INFO, slugOf, servicePath, categoryPath } from '../data/services';
 import './HomePage.css';
 
 // Our technical wing, shown as a selling point on the Home page: [icon, title, text, service slug]
@@ -95,13 +95,13 @@ export default function HomePage() {
                 return (
                   <article key={s.id} className="svc-card reveal" style={{ transitionDelay: `${i * 60}ms` }}>
                     <span className="svc-card__icon" aria-hidden="true"><Icon size={24} /></span>
-                    <h3><Link to={`/service#${s.id}`}>{s.label}</Link></h3>
+                    <h3><Link to={categoryPath(s.id)}>{s.label}</Link></h3>
                     <ul>
                       {s.services.slice(0, 5).map((sv) => (
                         <li key={sv.name}><Link to={servicePath(slugOf(sv.name))}>{sv.name}</Link></li>
                       ))}
                     </ul>
-                    <Link to={`/service#${s.id}`} className="link-arrow">All {s.label.toLowerCase()} services <ArrowRight size={16} aria-hidden="true" /></Link>
+                    <Link to={categoryPath(s.id)} className="link-arrow">All {s.label.toLowerCase()} services <ArrowRight size={16} aria-hidden="true" /></Link>
                   </article>
                 );
               })}

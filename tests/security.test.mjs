@@ -499,3 +499,15 @@ test('video and photos are cached: hero video, 1080p60 → small 720p30 with the
   const moov = f.indexOf('moov'); const mdat = f.indexOf('mdat');
   assert.ok(moov > 0 && moov < mdat, 'faststart: moov (the index) comes before the video data, so playback starts before the download ends');
 });
+
+test('category titles open their own page; AWS uses the normal service page', () => {
+  assert.match(src('src/components/SiteHeader.jsx'), /<Link to=\{categoryPath\(s\.id\)\} className=\"mega__head\"/);
+  for (const f of ['src/components/SiteHeader.jsx', 'src/components/Footer.jsx', 'src/pages/HomePage.jsx', 'src/pages/ServicePage.jsx', 'src/pages/ContactPage.jsx', 'src/App.jsx'])
+    assert.ok(!/\/service#/.test(src(f).replace(/\/\/.*$/gm, '')), f + ' still links to /service#...');
+  assert.ok(!fs.existsSync(new URL('src/pages/AwsCloudPage.jsx', proj)), 'AWS no longer has its own differently-built page');
+  assert.ok(!/AwsCloud|services\/aws-cloud-services/.test(src('src/App.jsx')));
+});
+test('phone picker flags are allowed by the Content-Security-Policy', () => {
+  const csp = vercel.headers.flatMap((h) => h.headers).find((h) => h.key === 'Content-Security-Policy').value;
+  assert.match(csp, /img-src[^;]*https:\/\/flagcdn\.com/);
+});

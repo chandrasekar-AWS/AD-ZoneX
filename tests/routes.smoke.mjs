@@ -18,13 +18,13 @@ try {
   const { renderToString } = await import('react-dom/server');
   const RR = await import('react-router-dom');
   const { ContentProvider, useContent } = await load('/src/context/ContentContext.jsx');
-  const { SESSIONS } = await load('/src/data/services.js');
+  const { SESSIONS, slugOf } = await load('/src/data/services.js');
   const h = React.createElement;
 
   const pages = {
     '/': '/src/pages/HomePage.jsx', '/about': '/src/pages/AboutPage.jsx', '/clients': '/src/pages/ClientsPage.jsx', '/careers': '/src/pages/CareersPage.jsx',
     '/profile': '/src/pages/ProfilePage.jsx', '/service': '/src/pages/ServicesHubPage.jsx', '/service/:category': '/src/pages/CategoryPage.jsx',
-    '/services/aws-cloud-services': '/src/pages/AwsCloudPage.jsx', '/services/:slug': '/src/pages/ServicePage.jsx', '/gallery': '/src/pages/GalleryPage.jsx',
+    '/services/:slug': '/src/pages/ServicePage.jsx', '/gallery': '/src/pages/GalleryPage.jsx',
     '/contact': '/src/pages/ContactPage.jsx', '/admin/login': '/src/admin/AdminLogin.jsx', '/admin': '/src/admin/AdminDashboard.jsx', '*': '/src/pages/NotFoundPage.jsx',
   };
   const comps = Object.fromEntries(await Promise.all(Object.entries(pages).map(async ([r, f]) => [r, (await load(f)).default])));
@@ -34,10 +34,10 @@ try {
 
   const urls = ['/', '/about', '/clients', '/careers', '/profile', '/service', '/gallery', '/contact', '/no-such-page', // (the admin pages are browser-only and are not rendered here)
     ...SESSIONS.map((s) => `/service/${s.id}`)];
-  const { slugOf } = await load('/src/data/services.js');
+  
   slugs.forEach((n) => urls.push(`/services/${slugOf(n)}`));
 
-  const seenLinks = new Map();
+  const seenLinks = new Map(); const seenFull = new Map();
   for (const url of urls) {
     const html = renderToString(h(RR.StaticRouter, { location: url },
       h(ContentProvider, null, h(RR.Routes, null, ...Object.entries(comps).map(([r, C]) => h(RR.Route, { key: r, path: r, element: h(C) }))))));
@@ -50,7 +50,7 @@ try {
       if (!href) { problems.push(`link without href (${name})`); continue; }
       if (!name) problems.push(`link ${href} has no readable name`);
       if (/target="_blank"/.test(attrs) && !/rel="[^"]*(noopener|noreferrer)/.test(attrs)) problems.push(`${href} opens a new tab without rel`);
-      if (href.startsWith('/')) { const path = href.split(/[?#]/)[0]; if (!seenLinks.has(path)) seenLinks.set(path, url); }
+      if (href.startsWith('/')) { const path = href.split(/[?#]/)[0]; if (!seenLinks.has(path)) seenLinks.set(path, url); const dec = href.replace(/&amp;/g, '&'); if (!seenFull.has(dec)) seenFull.set(dec, url); }
     }
     // buttons
     const forms = [...html.matchAll(/<form\b[\s\S]*?<\/form>/g)].map((f) => f[0]);
@@ -64,12 +64,23 @@ try {
   }
 
   console.log('\nChecking that every internal link leads somewhere real…');
+  for (const c of SESSIONS) if (!seenLinks.has(`/service/${c.id}`)) bad(`nothing links to the ${c.label} page /service/${c.id}`);
   const { findService } = await load('/src/data/services.js');
+  const catIds = new Set(SESSIONS.map((c) => c.id));
+  const bySlug = new Set(SESSIONS.flatMap((c) => c.services.map((x) => slugOf(x.name))));
+  for (const [full, from] of seenFull) {   // query strings and #hashes must point at something real too
+    const u = new URL(full, 'https://x.test');
+    if (u.pathname === '/contact' && u.searchParams.get('service')) {
+      const v = u.searchParams.get('service'); if (!bySlug.has(v) && !catIds.has(v)) bad(`link ${full} (on ${from}): contact form does not know "${v}"`);
+    }
+    if (u.pathname === '/gallery' && u.searchParams.get('category') && !catIds.has(u.searchParams.get('category'))) bad(`link ${full} (on ${from}): unknown gallery category`);
+    if (u.pathname === '/service' && u.hash && !catIds.has(u.hash.slice(1))) bad(`link ${full} (on ${from}): unknown #section`);
+  }
   for (const [path, from] of seenLinks) {
     const ok = patterns.some((re) => re.test(path)) || /^\/(logo|team|design|print|signage|digital|video|partners)\//.test(path);
     if (!ok) bad(`link ${path} (found on ${from}) matches no route`);
     const sm = /^\/services\/([^/]+)$/.exec(path);
-    if (sm && sm[1] !== 'aws-cloud-services' && !findService(SESSIONS, sm[1])) bad(`link ${path} (on ${from}) points to a service that does not exist`);
+    if (sm && !findService(SESSIONS, sm[1])) bad(`link ${path} (on ${from}) points to a service that does not exist`);
     const cm = /^\/service\/([^/]+)$/.exec(path);
     if (cm && !SESSIONS.some((s) => s.id === cm[1])) bad(`link ${path} (on ${from}) points to a category that does not exist`);
   }

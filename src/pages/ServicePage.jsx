@@ -7,7 +7,7 @@ import Button from '../components/Button';
 import ServiceSlider from '../components/ServiceSlider';
 import NotFoundPage from './NotFoundPage';
 import { useContent } from '../context/ContentContext';
-import { findService, contactPath, worksPath } from '../data/services';
+import { findService, contactPath, worksPath, categoryPath } from '../data/services';
 import './ServicePage.css';
 
 /** /services/:slug — one page per individual service (same template for all). */
@@ -27,7 +27,7 @@ export default function ServicePage() {
       <SiteHeader activeHref="/service" solid />
       <main className="section sp-main">
         <div className="container">
-          <Link to={`/service#${svc.category}`} className="sp-back"><ArrowLeft size={16} aria-hidden="true" /> All {svc.categoryLabel.toLowerCase()} services</Link>
+          <Link to={categoryPath(svc.category)} className="sp-back"><ArrowLeft size={16} aria-hidden="true" /> All {svc.categoryLabel.toLowerCase()} services</Link>
           <div className="sp-grid">
             <div className="sp-media">
               <ServiceSlider video={svc.video} images={svc.images} alt={svc.title} />

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import { SOCIALS, CONTACT_INFO } from '../data/services';
+import { SOCIALS, CONTACT_INFO, categoryPath } from '../data/services';
 import { SocialLink } from './SocialIcons';
 import { useContent } from '../context/ContentContext';
 import './Footer.css';
@@ -26,7 +26,7 @@ export default function Footer() {
           <nav aria-label="Services">
             <h2>Services</h2>
             <ul>
-              {sessions.map((s) => (<li key={s.id}><Link to={`/service#${s.id}`}>{s.label}</Link></li>))}
+              {sessions.map((s) => (<li key={s.id}><Link to={categoryPath(s.id)}>{s.label}</Link></li>))}
               
             </ul>
           </nav>
