@@ -80,6 +80,14 @@ try {
     problems.forEach((p) => bad(`${url}: ${p}`));
   }
 
+  // Digital services added in Admin (like "Billing & Invoice App") must get the details too, never an empty page
+  const { detailsFor } = await load('/src/data/serviceDetails.js');
+  const mk = (slug, category, items = []) => ({ slug, title: slug, category, items });
+  const b = detailsFor(mk('billing-invoice-app', 'digital'));
+  if (!b || b.offers.length < 4 || b.faq.length < 4) bad('Billing & Invoice App has no detailed content');
+  const g = detailsFor(mk('some-new-digital-service', 'digital', ['One', 'Two']));
+  if (!g || g.offers.length !== 2 || g.faq.length < 3 || g.steps.length !== 4 || g.why.length !== 3) bad('a new digital service added in Admin gets no default details');
+  if (detailsFor(mk('logo-design', 'design')) !== undefined) bad('non-digital services must not get the details');
   console.log('\nChecking that every internal link leads somewhere real…');
   for (const c of SESSIONS) if (!seenLinks.has(`/service/${c.id}`)) bad(`nothing links to the ${c.label} page /service/${c.id}`);
   const { findService } = await load('/src/data/services.js');

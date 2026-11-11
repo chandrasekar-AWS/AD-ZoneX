@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Phone, Mail, ArrowLeft, ChevronDown } from 'lucide-react';
 import ServiceSlider from '../components/ServiceSlider';
 import ServiceDetails from '../components/ServiceDetails';
-import { SERVICE_DETAILS } from '../data/serviceDetails';
+import { detailsFor } from '../data/serviceDetails';
 import { WhatsAppIcon } from '../components/SocialIcons';
 import { scrollToEl } from '../utils/smoothScroll';
 import { INDIA_LOCATIONS, INDIA_STATES } from '../data/indiaLocations';
@@ -39,7 +39,7 @@ function resolveContext(sessions, param) {
       description: svc.description,
       images: svc.images,
       video: svc.video,
-      details: svc.category === 'digital' ? SERVICE_DETAILS[svc.slug] : undefined, // long text for digital services
+      details: detailsFor(svc), // long text, for Digital services
       glowColor: svc.glowColor,
       dropdown: svc.title,
       message: `I'm interested in ${svc.title}.`,

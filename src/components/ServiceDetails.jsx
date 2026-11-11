@@ -11,6 +11,7 @@ export default function ServiceDetails({ details, id }) {
   const { offers, why, steps, faq } = details;
   return (
     <div className="sd" aria-label="Service details">
+      {offers.length > 0 && (
       <section className="section">
         <div className="container">
           <div className="section-head reveal">
@@ -23,14 +24,15 @@ export default function ServiceDetails({ details, id }) {
                 <span className="sd-offer__icon" aria-hidden="true"><Icon size={24} /></span>
                 <div>
                   <h3>{title}</h3>
-                  <span className="sd-offer__tag">{tag}</span>
-                  <p>{text}</p>
+                  {tag && <span className="sd-offer__tag">{tag}</span>}
+                  {text && <p>{text}</p>}
                 </div>
               </li>
             ))}
           </ul>
         </div>
       </section>
+      )}
 
       <section className="section section--ink">
         <div className="container">

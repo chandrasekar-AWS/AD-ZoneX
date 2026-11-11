@@ -1,6 +1,7 @@
 import {
   Cloud, DatabaseBackup, Headset, Rocket, Search, Server, ShieldCheck, Wrench, Layers, ClipboardList, Target, Share2, MessageCircle,
   BarChart3, LayoutTemplate, Code, ShoppingCart, AppWindow, Camera, Video, Film, Palette, Globe, Mail, Lock, CreditCard, RefreshCw, Eye, PenTool, Users, LifeBuoy,
+  FileText, IndianRupee, Bell, Wallet, Smartphone, BadgeCheck, GraduationCap,
 } from 'lucide-react';
 
 /**
@@ -44,6 +45,37 @@ export const SERVICE_DETAILS = {
       ['Can you move my existing website?', 'Yes. We copy your site and files to AWS, test everything, and switch over with as little downtime as possible.'],
       ['Who looks after it after launch?', 'We do. Monitoring, backups and fixes are handled by the same team that built it. Just call or message us if something needs attention.'],
       ['Do I need to know anything about AWS?', 'No. We explain things in plain language and handle the technical work for you.'],
+    ],
+  },
+
+  'billing-invoice-app': {
+    offersEyebrow: 'What the app does', offersHeading: 'Everything you need to bill customers and get paid',
+    offers: [
+      [FileText, 'Estimates & invoices', 'Create in moments', 'Make an estimate or an invoice for a customer, and turn it into a bill when the job is confirmed.'],
+      [IndianRupee, 'Payments & pending dues', 'See who owes what', 'Record the payments you receive and see every pending due in one place.'],
+      [Bell, 'Payment reminders', 'On the day it is due', 'Get a reminder on the day money is due, so you never forget to collect.'],
+      [Wallet, 'Expense tracking', 'Money going out', 'Log your business expenses, so you can see what you earn and what you spend.'],
+      [MessageCircle, 'Share on WhatsApp', 'Bills to the phone', 'Send a bill to your customer on WhatsApp straight from the app.'],
+      [Smartphone, 'Android, Windows and web', 'Use it anywhere', 'Bill from your phone, the counter computer or a web browser.'],
+    ],
+    whyEyebrow: WHY_EYEBROW, whyHeading: 'Billing software from the team that knows your brand',
+    why: [
+      [Layers, 'Built and looked after by one team', 'The same team that builds your website builds and looks after your billing app, so you have one place to call.'],
+      [BadgeCheck, 'Simple to use', 'Made for business owners and shop staff, not accountants, so it is quick to learn.'],
+      [Headset, 'Support when you need it', 'If something is not working or you need a change, you talk to us directly.'],
+    ],
+    stepsEyebrow: STEPS_EYEBROW, stepsHeading: 'From first call to your first bill',
+    steps: [
+      [Search, 'Understand', 'We learn how you bill today: what you sell, who pays you and how.'],
+      [Wrench, 'Set up', 'We set up the app with your business details so your bills look right.'],
+      [GraduationCap, 'Show you how', 'We show you and your staff how to create bills, record payments and use the reminders.'],
+      [Headset, 'Look after', 'We stay available for questions, fixes and changes after you start.'],
+    ],
+    faq: [
+      ['Which devices does it work on?', 'It works on Android, Windows and the web, so you can bill from your phone, a counter computer or any browser.'],
+      ['Can I send bills to customers on WhatsApp?', 'Yes. You can share a bill with your customer on WhatsApp from the app.'],
+      ['Will it remind me about pending payments?', 'Yes. You get a reminder on the day money is due, and you can see all pending dues in one place.'],
+      ['Can I track my expenses too?', 'Yes. You can log your expenses, so you see what comes in and what goes out.'],
     ],
   },
 
@@ -165,3 +197,36 @@ export const SERVICE_DETAILS = {
     ],
   },
 };
+
+/**
+ * Which detailed text a service gets on the Contact page. Only Digital services have it.
+ * A Digital service you add yourself in Admin (one that has no entry above) still gets a sensible page: its own list of
+ * "what's included" cards plus general text about working with AD ZONEX. Add an entry above to give it its own wording.
+ */
+export function detailsFor(svc) {
+  if (!svc || svc.category !== 'digital') return undefined;
+  if (SERVICE_DETAILS[svc.slug]) return SERVICE_DETAILS[svc.slug];
+  const items = (svc.items || []).filter(Boolean);
+  return {
+    offersEyebrow: 'What is included', offersHeading: `What you get with ${svc.title}`,
+    offers: items.map((it) => [BadgeCheck, it, '', '']),
+    whyEyebrow: WHY_EYEBROW, whyHeading: 'A team that looks after your brand and your technology',
+    why: [
+      [Layers, 'One team for everything', 'The people who design your logo and website also look after your digital services, so nothing is lost between suppliers.'],
+      [ShieldCheck, 'Done carefully', 'We keep things secure and tested, and explain them in plain language.'],
+      [Headset, 'One point of contact', 'You talk to us, not to a support queue. We stay available after launch.'],
+    ],
+    stepsEyebrow: STEPS_EYEBROW, stepsHeading: 'From first call to a service that works for you',
+    steps: [
+      [Search, 'Understand', 'We learn about your business and what you need.'],
+      [ClipboardList, 'Plan', 'We suggest the right approach for your budget and send a clear written quote.'],
+      [Wrench, 'Set up', 'We build and set everything up, and test that it works.'],
+      [Headset, 'Look after', 'We stay available for questions, fixes and changes.'],
+    ],
+    faq: [
+      [`How do I get started with ${svc.title}?`, 'Fill in the form below, call us or message us on WhatsApp. We will talk through what you need and send a clear written quote.'],
+      ['Who looks after it after it is set up?', 'We do. The same team stays available for questions, fixes and changes.'],
+      ['Do I need to know anything technical?', 'No. We explain things in plain language and handle the technical work for you.'],
+    ],
+  };
+}
