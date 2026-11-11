@@ -1,0 +1,32 @@
+.cat-crumbs { display: flex; align-items: center; gap: 0.6rem; margin-bottom: var(--s2); font-family: var(--font-head); font-size: 0.85rem; font-weight: 500; color: var(--on-dark-muted); }
+.cat-crumbs a { color: var(--on-dark); text-decoration: none; }
+.cat-crumbs a:hover { color: var(--lime); text-decoration: underline; text-underline-offset: 3px; }
+.cat-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: var(--s4); }
+
+.cat-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s2); }
+.cat-card { position: relative; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+.cat-card:hover, .cat-card:focus-within { border-color: var(--lime-deep); box-shadow: var(--shadow); }
+.cat-card img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: var(--line); }
+.cat-card__body { display: flex; flex-direction: column; flex: 1; padding: var(--s3); }
+.cat-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+/* the whole card is clickable through the heading link */
+.cat-card__link { text-decoration: none; }
+.cat-card__link::after { content: ''; position: absolute; inset: 0; }
+.cat-card__link:focus-visible { outline: none; }
+.cat-card:has(.cat-card__link:focus-visible) { outline: 3px solid var(--lime-deep); outline-offset: 2px; }
+.cat-card p { color: var(--text-muted); font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.cat-card__items { list-style: none; margin: var(--s2) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cat-card__items li { padding: 0.25rem 0.65rem; border-radius: 999px; background: var(--lime-tint); color: #3d4d0a; font-size: 0.8rem; font-weight: 600; }
+.cat-card__more { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: auto; padding-top: var(--s3); font-weight: 600; color: var(--lime-deep); }
+.cat-card:hover .cat-card__more { text-decoration: underline; text-underline-offset: 4px; }
+
+.cat-others__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+.cat-others__list a { display: flex; align-items: center; gap: 0.75rem; min-height: 72px; padding: 0 var(--s3); border: 1px solid var(--line); border-radius: var(--radius-lg); text-decoration: none; background: var(--paper); transition: border-color 0.2s var(--ease); }
+.cat-others__list a:hover { border-color: var(--lime-deep); }
+.cat-others__list strong { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; }
+.cat-others__list span { margin-left: auto; color: var(--text-muted); font-size: 0.9rem; }
+.cat-others__list svg { color: var(--lime-deep); flex: 0 0 auto; }
+
+@media (max-width: 1180px) { .cat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .cat-grid, .cat-others__list { grid-template-columns: 1fr; } .cat-hero__actions .btn { flex: 1 1 100%; } }

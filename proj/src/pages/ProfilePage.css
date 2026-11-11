@@ -1,0 +1,51 @@
+/* Profile page (class names start with pf-) */
+.pf-grid { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.pf-card { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--ink-line); border-radius: var(--radius-lg); padding: var(--s4); text-align: center; }
+.pf-photo { width: min(220px, 100%); aspect-ratio: 1; margin: 0 auto var(--s3); border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: linear-gradient(145deg, var(--lime), #7a9a1c); color: var(--ink); font-family: var(--font-head); font-size: 3.4rem; font-weight: 700; border: 4px solid rgba(255, 255, 255, 0.12); }
+.pf-photo img { width: 100%; height: 100%; object-fit: cover; }
+.pf-card h3 { font-size: 1.4rem; font-weight: 600; }
+.pf-role { margin-top: 0.3rem; color: var(--lime); font-size: 0.95rem; }
+.pf-facts { margin: var(--s3) 0 0; padding-top: var(--s3); border-top: 1px solid var(--ink-line); display: grid; gap: 0.9rem; text-align: left; }
+.pf-facts dt { font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-dark-muted); font-family: var(--font-head); font-weight: 600; }
+.pf-facts dd { margin: 0.2rem 0 0; font-size: 0.97rem; }
+.pf-about p { margin: 0 0 var(--s2); color: var(--on-dark-muted); font-size: 1.04rem; line-height: 1.8; max-width: 66ch; }
+.pf-about p.pf-lead { color: var(--on-dark); font-family: var(--font-head); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.55; }
+
+.pf-works__title { margin: clamp(3rem, 6vw, 5rem) 0 var(--s3); font-size: 1.5rem; font-weight: 600; }
+.pf-works { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--s3); }
+.pf-work { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--ink-line); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), opacity 0.5s var(--ease); }
+.pf-work:hover { transform: translateY(-4px); border-color: var(--lime); }
+.pf-work img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.pf-work > div { padding: var(--s3); }
+.pf-work h4 { font-size: 1.05rem; font-weight: 600; }
+.pf-work p { margin-top: 0.4rem; color: var(--on-dark-muted); font-size: 0.93rem; }
+
+@media (max-width: 860px) { .pf-grid { grid-template-columns: 1fr; } }
+
+.pf-card h2 { font-size: 1.4rem; font-weight: 600; }
+.pf-works__title { margin: clamp(3rem, 6vw, 5rem) 0 var(--s3); font-size: 1.5rem; font-weight: 600; }
+.pf-work h3 { font-size: 1.05rem; font-weight: 600; }
+.pf-cta { background: var(--lime); color: var(--ink); padding-block: clamp(3rem, 6vw, 4.5rem); }
+.pf-cta__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.pf-cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 600; }
+.pf-cta p { margin-top: 0.6rem; color: rgba(18, 21, 26, 0.82); }
+.pf-cta__btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.pf-cta .btn--outline { color: var(--ink); border-color: var(--ink); }
+.pf-cta .btn--outline:hover { background: var(--ink); color: #fff; }
+@media (max-width: 520px) { .pf-cta__btns, .pf-cta__btns .btn { width: 100%; } }
+
+/* Several people on one page */
+.pf-person + .pf-person { margin-top: clamp(3rem, 7vw, 5.5rem); padding-top: clamp(3rem, 7vw, 5.5rem); border-top: 1px solid var(--ink-line); }
+.pf-person:nth-of-type(even) .pf-grid { grid-template-columns: minmax(0, 1fr) minmax(260px, 340px); }
+.pf-person:nth-of-type(even) .pf-card { order: 2; }
+.pf-tag { display: inline-block; margin-bottom: var(--s2); padding: 0.3rem 0.8rem; border-radius: 999px; background: rgba(175, 204, 57, 0.14); color: var(--lime); font-family: var(--font-head); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.pf-intro { margin: 0 0 var(--s2); font-family: var(--font-head); font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 600; color: var(--on-dark); }
+.pf-intro--sm { margin-top: var(--s3); font-size: 1.05rem; color: var(--lime); }
+.pf-skills { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; max-width: 66ch; }
+.pf-skills li { position: relative; padding: 0.7rem 1rem 0.7rem 2.2rem; border: 1px solid var(--ink-line); border-radius: 12px; background: rgba(255, 255, 255, 0.04); }
+.pf-skills li::before { content: ''; position: absolute; left: 1rem; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--lime); }
+.pf-photo img { object-position: center 20%; }
+@media (max-width: 860px) {
+  .pf-person:nth-of-type(even) .pf-grid { grid-template-columns: 1fr; }
+  .pf-person:nth-of-type(even) .pf-card { order: 0; }
+}

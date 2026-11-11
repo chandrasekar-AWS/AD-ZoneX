@@ -1,0 +1,40 @@
+.sv { position: relative; width: 100%; height: 100%; background: #0f1217; overflow: hidden; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.sv__video { display: block; width: 100%; height: 100%; object-fit: contain; background: #0f1217; cursor: pointer; -webkit-touch-callout: none; }
+/* Safety net: even if a browser tried to draw its own controls, none of them are shown. */
+.sv__video::-webkit-media-controls,
+.sv__video::-webkit-media-controls-enclosure,
+.sv__video::-webkit-media-controls-panel,
+.sv__video::-webkit-media-controls-fullscreen-button,
+.sv__video::-webkit-media-controls-overflow-button { display: none !important; -webkit-appearance: none; }
+
+.sv__big { all: unset; box-sizing: border-box; position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; margin: -34px 0 0 -34px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: rgba(18, 21, 26, 0.62); border: 1px solid rgba(255, 255, 255, 0.35); backdrop-filter: blur(4px); cursor: pointer; transition: background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease); }
+.sv__big svg { margin-left: 3px; }
+.sv__big:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); transform: scale(1.06); }
+.sv__big:focus-visible, .sv-bar__btn:focus-visible { outline: 3px solid var(--lime); outline-offset: 2px; }
+
+.sv__spin { position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.25); border-top-color: var(--lime); animation: sv-spin 0.8s linear infinite; pointer-events: none; }
+@keyframes sv-spin { to { transform: rotate(360deg); } }
+.sv__error { position: absolute; inset: 0; margin: 0; display: grid; place-items: center; padding: 1rem; text-align: center; color: #fff; font-size: 0.95rem; background: rgba(15, 18, 23, 0.88); }
+
+/* control bar: play · time · seek · time · mute */
+.sv-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 0.6rem; padding: 1.6rem 0.75rem 0.55rem; color: #fff; background: linear-gradient(to top, rgba(8, 10, 13, 0.82), rgba(8, 10, 13, 0)); opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity 0.25s var(--ease), transform 0.25s var(--ease); touch-action: manipulation; }
+.sv.is-awake .sv-bar, .sv:focus-within .sv-bar { opacity: 1; transform: none; pointer-events: auto; }
+.sv-bar__btn { all: unset; box-sizing: border-box; flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: #fff; cursor: pointer; transition: background-color 0.2s var(--ease), color 0.2s var(--ease); }
+.sv-bar__btn:hover { background: rgba(255, 255, 255, 0.16); color: var(--lime); }
+.sv-bar__time { flex: none; min-width: 2.6em; font-family: var(--font-head); font-size: 0.78rem; font-variant-numeric: tabular-nums; text-align: center; color: rgba(255, 255, 255, 0.92); }
+
+.sv-bar__seek { -webkit-appearance: none; appearance: none; flex: 1 1 auto; min-width: 0; height: 24px; margin: 0; background: transparent; cursor: pointer; }
+.sv-bar__seek:disabled { cursor: default; opacity: 0.5; }
+.sv-bar__seek:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; border-radius: 4px; }
+.sv-bar__seek::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: linear-gradient(to right, var(--lime) var(--p, 0%), rgba(255, 255, 255, 0.32) var(--p, 0%)); }
+.sv-bar__seek::-moz-range-track { height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.32); }
+.sv-bar__seek::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--lime); }
+.sv-bar__seek::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%; border: 0; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); transition: transform 0.15s var(--ease); }
+.sv-bar__seek::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; border: 0; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+.sv-bar__seek:hover::-webkit-slider-thumb { transform: scale(1.2); }
+
+@media (max-width: 480px) {
+  .sv-bar { gap: 0.35rem; padding-inline: 0.4rem; }
+  .sv__big { width: 58px; height: 58px; margin: -29px 0 0 -29px; }
+}
+@media (prefers-reduced-motion: reduce) { .sv__spin { animation-duration: 2s; } .sv-bar { transition: none; } }

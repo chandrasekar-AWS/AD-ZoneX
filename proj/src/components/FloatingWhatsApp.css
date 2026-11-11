@@ -1,0 +1,31 @@
+/* Floating WhatsApp button — bottom-right of every public page. Only transform/opacity animate (no repaint cost). */
+.wa-float {
+  position: fixed; z-index: 90;
+  right: calc(18px + env(safe-area-inset-right, 0px));
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%;
+  background: #25d366; color: #fff; text-decoration: none;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+  animation: wa-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.wa-float svg { position: relative; z-index: 1; }
+.wa-float:hover { background: #1fb858; transform: translateY(-3px) scale(1.05); }
+.wa-float:active { transform: scale(0.96); }
+.wa-float:focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px #12151a, 0 8px 22px rgba(0, 0, 0, 0.32); }
+.wa-float__ring { position: absolute; inset: 0; border-radius: 50%; background: #25d366; opacity: 0; animation: wa-ring 2.8s ease-out 1.2s infinite; pointer-events: none; }
+.wa-float__tip {
+  position: absolute; right: calc(100% + 12px); top: 50%; translate: 0 -50%;
+  padding: 0.5rem 0.8rem; border-radius: 10px; white-space: nowrap;
+  background: #12151a; color: #fff; font: 600 0.85rem/1 var(--font-head, system-ui, sans-serif);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  opacity: 0; transform: translateX(8px); pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease;
+}
+@media (hover: hover) { .wa-float:hover .wa-float__tip, .wa-float:focus-visible .wa-float__tip { opacity: 1; transform: none; } }
+@keyframes wa-in { from { opacity: 0; transform: translateY(16px) scale(0.7); } to { opacity: 1; transform: none; } }
+@keyframes wa-ring { 0% { opacity: 0.45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.7); } }
+@media (max-width: 640px) { .wa-float { width: 54px; height: 54px; right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); } .wa-float svg { width: 28px; height: 28px; } }
+@media (prefers-reduced-motion: reduce) { .wa-float, .wa-float__ring { animation: none; } .wa-float__ring { display: none; } .wa-float, .wa-float__tip { transition: none; } }
+/* Never print it */
+@media print { .wa-float { display: none; } }

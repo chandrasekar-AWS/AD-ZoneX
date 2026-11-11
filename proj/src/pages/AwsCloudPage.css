@@ -1,0 +1,47 @@
+/* AWS Cloud Services page (class names start with aws- so they never clash with other pages) */
+.aws-hero__btns { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: var(--s3); }
+.aws .btn--outline { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.aws .btn--outline:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+.aws-offers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
+.aws-offer { display: flex; gap: 1.1rem; align-items: flex-start; padding: var(--s4); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease), opacity 0.5s var(--ease); }
+.aws-offer:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--lime); }
+.aws-offer__icon { flex: none; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: var(--ink); color: var(--lime); }
+.aws-offer h3 { font-size: 1.2rem; font-weight: 600; }
+.aws-offer__tag { display: inline-block; margin: 0.3rem 0 0.6rem; padding: 0.15rem 0.65rem; border-radius: 999px; background: rgba(175, 204, 57, 0.22); color: #4d6210; font-family: var(--font-head); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em; }
+.aws-offer p { color: var(--text-muted); font-size: 0.97rem; }
+
+.aws-why { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); }
+.aws-why li { padding-top: var(--s3); border-top: 2px solid var(--lime); transition: opacity 0.5s var(--ease); }
+.aws-why svg { color: var(--lime); margin-bottom: 0.8rem; }
+.aws-why h3 { font-size: 1.15rem; font-weight: 600; color: #fff; }
+.aws-why p { margin-top: 0.5rem; color: var(--on-dark-muted); font-size: 0.97rem; }
+
+.aws-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s3); }
+.aws-steps li { padding: var(--s3); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--card); }
+.aws-steps__icon { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: var(--s2); border-radius: 50%; background: var(--lime); color: var(--ink); }
+.aws-steps h3 { font-size: 1.1rem; font-weight: 600; }
+.aws-steps p { margin-top: 0.4rem; color: var(--text-muted); font-size: 0.94rem; }
+
+.aws-faq { max-width: 860px; }
+.aws-faq__list { display: grid; gap: 0.75rem; }
+.aws-faq details { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); transition: border-color 0.2s var(--ease), opacity 0.5s var(--ease); }
+.aws-faq details[open] { border-color: var(--lime-deep); }
+.aws-faq summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0.7rem 1.2rem; font-family: var(--font-head); font-weight: 500; font-size: 1.02rem; }
+.aws-faq summary::-webkit-details-marker { display: none; }
+.aws-faq summary::after { content: '+'; flex: none; font-size: 1.5rem; line-height: 1; color: var(--lime-deep); transition: transform 0.25s var(--ease); }
+.aws-faq details[open] summary::after { transform: rotate(45deg); }
+.aws-faq summary:focus-visible { outline: 3px solid var(--lime-deep); outline-offset: 2px; border-radius: var(--radius); }
+.aws-faq details p { padding: 0 1.2rem 1.1rem; color: var(--text-muted); }
+
+.aws-cta { background: var(--lime); color: var(--ink); padding-block: clamp(3rem, 6vw, 4.5rem); }
+.aws-cta__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.aws-cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 600; max-width: 24ch; }
+.aws-cta p { margin-top: 0.6rem; color: rgba(18, 21, 26, 0.82); }
+.aws-cta__btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.aws-cta .btn--outline { color: var(--ink); border-color: var(--ink); }
+.aws-cta .btn--outline:hover { background: var(--ink); color: #fff; }
+
+@media (max-width: 1000px) { .aws-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .aws-why { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .aws-offers { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .aws-steps { grid-template-columns: 1fr; } .aws-offer { flex-direction: column; } .aws-cta__btns, .aws-cta__btns .btn { width: 100%; } }
